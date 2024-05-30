@@ -1,0 +1,44 @@
+def up(a):
+    p = 1
+    for i in range(len(a) - 1, -1, -1):
+        if a[i] == '0':
+            a[i] = '1'
+            p = 0
+            break
+        else:
+            a[i] = '0'
+            p = 1
+    return bool(p)
+
+def solve(n, a, b):
+    z = '0' * n 
+    b_list = list(b)
+    if not up(b_list): 
+        p = 0 
+        p_index = -1 
+        for i in range(n - 1, -1, -1): 
+            if int(a[i]) + int(b_list[i]) + p > 1:
+                p = 1
+                p_index = i
+            else:
+                p = 0
+        if p_index == -1:  
+            return a, ''.join(b_list)
+        if p_index > 0:
+            b_list[p_index - 1] = '1'
+            for i in range(p_index, n):
+                b_list[i] = '0'
+            return a, ''.join(b_list)
+    a_list = list(a)
+    if up(a_list):
+        return z, z  
+    return ''.join(a_list), z  
+
+n = int(input())
+a = input().strip()
+b = input().strip()
+
+result = solve(n, a, b)
+
+print(result[0])
+print(result[1])
